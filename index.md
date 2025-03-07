@@ -1,6 +1,6 @@
 # Relatório
 
-## Table of Contents 
+## Tabela de Conteúdos
 - [Relatório](#relatório)
   - [Table of Contents](#table-of-contents)
   - [1. Introdução](#1-introdução)
@@ -43,7 +43,7 @@ Varredura completa de portas e identificação de serviços utilizando `nmap` :
 
 Comando utilizado: `nmap -sS -p- -sV -T4 -v 192.168.0.207`
 
-```bash
+```console
 Nmap scan report for 192.168.0.207
 Host is up (0.00051s latency).
 Not shown: 65524 filtered tcp ports (no-response)
@@ -153,7 +153,7 @@ Após obter a shell com o usuário `www-data`, atualizamos a sessão para Meterp
 
 
 
-```
+```console
 msf6 post(multi/manage/shell_to_meterpreter) > sessions -l
 
 Active sessions
